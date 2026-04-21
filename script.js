@@ -1,3 +1,5 @@
+let filtereZ = 0;
+const alpha = 0.2;
 document.getElementById('start').onclick = function() {
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
   DeviceMotionEvent.requestPermission()
@@ -11,6 +13,10 @@ document.getElementById('start').onclick = function() {
 }
 };
 function handleMotion(event) {
-  let z = event.acceleration.z || 0;
-  document.getElementById('output').innerText = z.toFixed(2);
+  let rawZ = event.acceleration.z || 0;
+  filtereZ = (alpha * rawZ) + (1 - alpha) * filtereZ;
+  document.getElementById('output').innerText = `
+  Raw: ${rawZ.toFixed(2)}
+  Filtered: ${filtereZ.toFixed(2)}
+  `;
 }
