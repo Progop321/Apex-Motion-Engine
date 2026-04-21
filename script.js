@@ -2,7 +2,6 @@ let filtereZ = 0;
 let count = 0;
 let isWaiting = false;
 const alpha = 0.2;
-const pullUp = document.querySelector('#pull-ups');
 const outputDisplay = document.getElementById('output');
 document.getElementById('start').onclick = function() {
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -30,7 +29,7 @@ function handleMotion(event) {
   outputDisplay.innerText = `
   Raw: ${rawZ.toFixed(2)}
   Filtered: ${filtereZ.toFixed(2)}
-  State: ${count}
+  State: ${count.toFixed(0)}
   `;
 };
 
