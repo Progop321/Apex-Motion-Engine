@@ -30,7 +30,7 @@ function handleMotion(event) {
   outputDisplay.innerText = `
   Raw: ${rawZ.toFixed(2)}
   Filtered: ${filtereZ.toFixed(2)}
-  State: ${isWaiting ? 'UP' : 'WAITING'}
+  State: ${count}
   `;
 };
 
