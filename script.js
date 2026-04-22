@@ -2,6 +2,8 @@ let filtereZ = 0;
 let count = 0;
 let isWaiting = false;
 const alpha = 0.2;
+const threshold = 15;
+const resetLevel = 5;
 const outputDisplay = document.getElementById('output');
 document.getElementById('start').onclick = function() {
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -16,20 +18,19 @@ document.getElementById('start').onclick = function() {
 }
 };
 function handleMotion(event) {
-  let rawZ = event.acceleration.z || 0;
-  filtereZ = (alpha * rawZ) + (1 - alpha) * filtereZ;
-  if (filtereZ >= 15 && isWaiting === false) {
-    count = Number(count + 1);
+  const acc = event.acceleration;
+  if(!acc) return;
+  let x = acc.x || 0;
+  let y = acc.y || 0;
+  let z = acc.z || 0;
+  let magnitube = Math.sqrt(x*x + y*y + z*z);
+  outputDisplay.innerText = magnitube.toFixed(2);
+  if(magnitube >= threshold && !isWaiting) {
+    count++;
     isWaiting = true;
-    pullUp.innerText = count;
+    document.body.style.backgroundColor = '#ff0055';
+    document.getElementById('counter').innerText = count;
+    console.log('Движение зафиксировано. Повторов:', count)
   }
-  if (filtereZ <= 5) {
-    isWaiting = false;
-  }
-  outputDisplay.innerText = `
-  Raw: ${rawZ.toFixed(2)}
-  Filtered: ${filtereZ.toFixed(2)}
-  State: ${count.toFixed(0)}
-  `;
 };
 
