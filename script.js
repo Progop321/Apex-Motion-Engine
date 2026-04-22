@@ -2,8 +2,8 @@ let filtereZ = 0;
 let count = 0;
 let isWaiting = false;
 const alpha = 0.2;
-const threshold = 15;
-const resetLevel = 5;
+const threshold = 25;
+const resetLevel = 10;
 const outputDisplay = document.getElementById('output');
 document.getElementById('start').onclick = function() {
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -34,6 +34,6 @@ function handleMotion(event) {
   };
   if(magnitude < resetLevel && isWaiting) {
     isWaiting = false; 
-    document.body.style.backgroundColor = "#white";
+    document.body.style.backgroundColor = "#fff";
   };
 };
