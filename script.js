@@ -30,7 +30,10 @@ function handleMotion(event) {
     isWaiting = true;
     document.body.style.backgroundColor = '#ff0055';
     document.getElementById('counter').innerText = count;
-    console.log('Движение зафиксировано. Повторов:', count)
-  }
+    console.log('Движение зафиксировано. Повторов:', count);
+  };
+  if(magnitude <= resetLevel && isWaiting) {
+    isWaiting = false; 
+    document.body.style.backgroundColor = "#000";
+  };
 };
-
