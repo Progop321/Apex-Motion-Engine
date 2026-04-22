@@ -2,8 +2,8 @@ let filtereZ = 0;
 let count = 0;
 let isWaiting = false;
 const alpha = 0.2;
-const threshold = 25;
-const resetLevel = 10;
+const threshold = 45;
+const resetLevel = 12;
 const outputDisplay = document.getElementById('output');
 document.getElementById('start').onclick = function() {
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
