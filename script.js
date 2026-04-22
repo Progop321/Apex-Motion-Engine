@@ -34,6 +34,6 @@ function handleMotion(event) {
   };
   if(magnitude < resetLevel && isWaiting) {
     isWaiting = false; 
-    document.body.style.backgroundColor = "#000";
+    document.body.style.backgroundColor = "#white";
   };
 };
