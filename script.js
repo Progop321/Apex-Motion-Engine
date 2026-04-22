@@ -29,11 +29,13 @@ function handleMotion(event) {
     count++;
     isWaiting = true;
     document.body.style.backgroundColor = '#ff0055';
+    document.body.style.color = '#000'
     document.getElementById('counter').innerText = count;
     console.log('Движение зафиксировано. Повторов:', count);
   };
   if(magnitude < resetLevel && isWaiting) {
     isWaiting = false; 
-    document.body.style.backgroundColor = "#fff";
+    document.body.style.backgroundColor = "#000";
+    document.body.style.color = '#fff'
   };
 };
