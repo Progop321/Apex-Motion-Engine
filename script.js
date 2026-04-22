@@ -23,16 +23,16 @@ function handleMotion(event) {
   let x = acc.x || 0;
   let y = acc.y || 0;
   let z = acc.z || 0;
-  let magnitube = Math.sqrt(x*x + y*y + z*z);
-  outputDisplay.innerText = magnitube.toFixed(2);
-  if(magnitube >= threshold && !isWaiting) {
+  let magnitude = Math.sqrt(x*x + y*y + z*z);
+  outputDisplay.innerText = magnitude.toFixed(2);
+  if(magnitude >= threshold && !isWaiting) {
     count++;
     isWaiting = true;
     document.body.style.backgroundColor = '#ff0055';
     document.getElementById('counter').innerText = count;
     console.log('Движение зафиксировано. Повторов:', count);
   };
-  if(magnitude <= resetLevel && isWaiting) {
+  if(magnitude < resetLevel && isWaiting) {
     isWaiting = false; 
     document.body.style.backgroundColor = "#000";
   };
