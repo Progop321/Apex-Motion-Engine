@@ -7,12 +7,12 @@ const resetLevel = 12;
 const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 function playSuccessSound() {
-  const msg = new SpeechSynthesisUtterance();
-  msg.text = 'Done';
-  msg.lang = 'en-US';
-  msg.volume = 1;
-  msg.rate = 2.5;
-  window.speechSynthesis.speak(msg);
+  if (!window.speechSynthesis.speaking) {
+    const msg = new SpeechSynthesisUtterance('Done');
+    msg.lang = 'en-US';
+    msg.rate = 2.5;
+    window.speechSynthesis.speak(msg);
+  }
 };
 document.getElementById('start').onclick = function() {
   playSuccessSound();
