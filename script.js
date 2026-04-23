@@ -6,7 +6,16 @@ const threshold = 45;
 const resetLevel = 12;
 const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
+function playSuccessSound() {
+  const msg = new SpeechSynthesisUtterance();
+  msg.text = 'Done';
+  msg.lang = 'en-US';
+  msg.volume = 1;
+  msg.rate = 2.5;
+  window.speechSynthesis.speak(msg);
+};
 document.getElementById('start').onclick = function() {
+  playSuccessSound();
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
   DeviceMotionEvent.requestPermission()
     .then(state => {
@@ -18,17 +27,9 @@ document.getElementById('start').onclick = function() {
   window.addEventListener('devicemotion', handleMotion);
 }
 };
-function playSuccessSound() {
-  const msg = new SpeechSynthesisUtterance();
-  msg.text = 'Done';
-  msg.lanf = 'en-US';
-  msg.volume = 1;
-  msg.rate = 2;
-  window.speechSynthesis.speak(msg);
-};
 function handleMotion(event) {
   const acc = event.acceleration;
-  if(!acc) return;
+  if(!acc || !acc.x) return;
   let x = acc.x || 0;
   let y = acc.y || 0;
   let z = acc.z || 0;
