@@ -39,7 +39,7 @@ function handleMotion(event) {
     isWaiting = true;
     document.body.style.backgroundColor = '#ff0055';
     document.body.style.color = '#000'
-    playSuccessSound.play();
+    playSuccessSound();
     counterDisplay.innerText = count;
     console.log('Движение зафиксировано. Повторов:', count);
   };
