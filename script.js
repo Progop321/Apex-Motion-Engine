@@ -8,7 +8,15 @@ const successSound = new Audio('https://imgix.net');
 const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 document.getElementById('start').onclick = function() {
-  successSound.play().then(() => {successSound.pause(); successSound.currentTime = 0; })
+  successSound.play().then(() => {
+    console.log("Аудио-движок запущен"); 
+    successSound.pause(); 
+    successSound.currentTime = 0; 
+  })
+  .catch(error => {
+    console.error('Ошибка активации звука:', error);
+    alert('Нажмите ещё один раз, браузер блокирует звук');
+  });
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
   DeviceMotionEvent.requestPermission()
     .then(state => {
