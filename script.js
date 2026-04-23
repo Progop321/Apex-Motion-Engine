@@ -14,7 +14,7 @@ function speakCount(number) {
     window.speechSynthesis.speak(msg);
   };
 document.getElementById('start').onclick = function() {
-  speakCount();
+  speakCount(count);
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
   DeviceMotionEvent.requestPermission()
     .then(state => {
@@ -28,7 +28,7 @@ document.getElementById('start').onclick = function() {
 };
 function handleMotion(event) {
   const acc = event.acceleration;
-  if(!acc || !acc.x) return;
+  if(!acc) return;
   let x = acc.x || 0;
   let y = acc.y || 0;
   let z = acc.z || 0;
