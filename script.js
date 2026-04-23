@@ -6,16 +6,15 @@ const threshold = 45;
 const resetLevel = 12;
 const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
-function playSuccessSound() {
-  if (!window.speechSynthesis.speaking) {
-    const msg = new SpeechSynthesisUtterance('pull-up');
+function speakCount(number) {
+    window.speechSynthesis.cancel();
+    const msg = new SpeechSynthesisUtterance(number.toString());
     msg.lang = 'en-US';
-    msg.rate = 1.2;
+    msg.rate = 1;
     window.speechSynthesis.speak(msg);
-  }
-};
+  };
 document.getElementById('start').onclick = function() {
-  playSuccessSound();
+  speakCount();
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
   DeviceMotionEvent.requestPermission()
     .then(state => {
@@ -40,7 +39,7 @@ function handleMotion(event) {
     isWaiting = true;
     document.body.style.backgroundColor = '#ff0055';
     document.body.style.color = '#000'
-    playSuccessSound();
+    speakCount(count);
     counterDisplay.innerText = count;
     console.log('Движение зафиксировано. Повторов:', count);
   };
