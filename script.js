@@ -8,7 +8,7 @@ const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 function playSuccessSound() {
   if (!window.speechSynthesis.speaking) {
-    const msg = new SpeechSynthesisUtterance('Done');
+    const msg = new SpeechSynthesisUtterance('Pep');
     msg.lang = 'en-US';
     msg.rate = 2.5;
     window.speechSynthesis.speak(msg);
