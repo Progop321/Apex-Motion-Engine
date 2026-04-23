@@ -4,9 +4,11 @@ let isWaiting = false;
 const alpha = 0.2;
 const threshold = 45;
 const resetLevel = 12;
-const successSound = new Audio('https://google.com');
+const successSound = new Audio('https://imgix.net');
+const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 document.getElementById('start').onclick = function() {
+  successSound.play().then(() => {successSound.pause(); successSound.currentTime = 0; })
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
   DeviceMotionEvent.requestPermission()
     .then(state => {
@@ -29,10 +31,10 @@ function handleMotion(event) {
   if(magnitude >= threshold && !isWaiting) {
     count++;
     isWaiting = true;
-    successSound.play().catch(e => console.log('Нужен клик для активации звука'))
     document.body.style.backgroundColor = '#ff0055';
     document.body.style.color = '#000'
-    document.getElementById('counter').innerText = count;
+    successSound.play();
+    counterDisplay.innerText = count;
     console.log('Движение зафиксировано. Повторов:', count);
   };
   if(magnitude < resetLevel && isWaiting) {
