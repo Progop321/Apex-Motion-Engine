@@ -4,19 +4,9 @@ let isWaiting = false;
 const alpha = 0.2;
 const threshold = 45;
 const resetLevel = 12;
-const successSound = new Audio('https://mixkit.imgix.net');
 const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 document.getElementById('start').onclick = function() {
-  successSound.play().then(() => {
-    console.log("Аудио-движок запущен"); 
-    successSound.pause(); 
-    successSound.currentTime = 0; 
-  })
-  .catch(error => {
-    console.error('Ошибка активации звука:', error);
-    alert('Нажмите ещё один раз, браузер блокирует звук');
-  });
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
   DeviceMotionEvent.requestPermission()
     .then(state => {
@@ -27,6 +17,14 @@ document.getElementById('start').onclick = function() {
 } else {
   window.addEventListener('devicemotion', handleMotion);
 }
+};
+function playSuccessSound() {
+  const msg = new SpeechSynthesisUtterance();
+  msg.text = 'Done';
+  msg.lanf = 'en-US';
+  msg.volume = 1;
+  msg.rate = 2;
+  window.speechSynthesis.speak(msg);
 };
 function handleMotion(event) {
   const acc = event.acceleration;
@@ -41,7 +39,7 @@ function handleMotion(event) {
     isWaiting = true;
     document.body.style.backgroundColor = '#ff0055';
     document.body.style.color = '#000'
-    successSound.play();
+    playSuccessSound.play();
     counterDisplay.innerText = count;
     console.log('Движение зафиксировано. Повторов:', count);
   };
