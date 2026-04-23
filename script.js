@@ -8,9 +8,9 @@ const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 function playSuccessSound() {
   if (!window.speechSynthesis.speaking) {
-    const msg = new SpeechSynthesisUtterance('Pep');
+    const msg = new SpeechSynthesisUtterance('pull-up');
     msg.lang = 'en-US';
-    msg.rate = 2.5;
+    msg.rate = 1.2;
     window.speechSynthesis.speak(msg);
   }
 };
