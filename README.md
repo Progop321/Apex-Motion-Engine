@@ -2,7 +2,7 @@
 
 Core module for real-time motion tracking using smartphone sensors (Gyroscope/Accelerometer). 
 
-Status: Research & Development (Phase 0.2) Goal: High-precision rep counting for explosive calisthenics.
+Status: Research & Development (Phase 0.3) Goal: High-precision rep counting for explosive calisthenics.
 
 # Stack: 
 - JavaScript (Vanilla)
