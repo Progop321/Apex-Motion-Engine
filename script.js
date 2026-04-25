@@ -6,7 +6,9 @@ const threshold = 45;
 const resetLevel = 12;
 const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
+const modeDisplay = document.getElementById('current-mode');
 function speakCount(number) {
+    if(window.speechSynthesis.speaking) return;
     window.speechSynthesis.cancel();
     const msg = new SpeechSynthesisUtterance(number.toString());
     msg.lang = 'en-US';
@@ -49,3 +51,10 @@ function handleMotion(event) {
     document.body.style.color = '#fff'
   };
 };
+function setMode(newT, newR, name) {
+  threshold = newT;
+  resetLevel = newR;
+  count = 0;
+  counterDisplay.innerText = count;
+  modeDisplay.innerText = `Mode: ${name}`;
+}
