@@ -9,7 +9,6 @@ const outputDisplay = document.getElementById('output');
 const modeDisplay = document.getElementById('current-mode');
 function speakCount(number) {
     if(window.speechSynthesis.speaking) return;
-    window.speechSynthesis.cancel();
     const msg = new SpeechSynthesisUtterance(number.toString());
     msg.lang = 'en-US';
     msg.rate = 1;
