@@ -48,9 +48,13 @@ function handleMotion(event) {
   let now = Date.now();
   if (now - lastProcessTime < processInterval) return; 
   lastProcessTime = now;
-  const acc = event.accelerationIncludingGravity || event.acceleration;
+  const acc = event.accelerationIncludingGravity;
   if (!acc) return;
-  let magnitude = Math.sqrt((acc.x||0)**2 + (acc.y||0)**2 + (acc.z||0)**2);
+  let x = acc.x || 0;
+  let y = acc.y || 0;
+  let z = acc.z || 0;
+  let magnitude = Math.sqrt(x*x + y*y + z*z) - 9.8;
+  if (magnitude < 0) magnitude = 0;
   outputDisplay.innerText = magnitude.toFixed(2);
   if (magnitude >= threshold && !isWaiting) {
     count++;
