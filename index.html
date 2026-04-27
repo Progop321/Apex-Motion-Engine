@@ -7,14 +7,15 @@
   <title>Apex-Project</title>
 </head>
 <body>
-  <h1>Версия 0.2.2 - Тест звука</h1>
-  <button id="start">Start</button>
+  <h1>Apex v0.2.2</h1>
+  <button id="start">Start System</button>
   <h2 id="output">0</h2>
-  <p>Подтягиваний: <span id="counter">0</span></p>
+  <div id="counter">0</div>
+  
   <div class="mode-selector">
-    <label for="exercise-select"">Select Exercise:</label>
+    <label for="exercise-select">Exercise:</label>
     <select id="exercise-select" onchange="changeExercise(this)">
-      <option value="pullups">Pull-ups (Explosive)</option>
+      <option value="pullups">Pull-ups</option>
       <option value="pushups">Push-ups</option>
       <option value="squats">Squats</option>
     </select>
