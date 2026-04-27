@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 body {
     background-color: #050505; 
     color: #00ff41; 
@@ -53,60 +52,4 @@ select {
 
 select:hover {
   box-shadow: 0 0 10px #00ff41;
-=======
-body {
-    background-color: #050505; 
-    color: #00ff41; 
-    font-family: 'Courier New', Courier, monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-}
-
-#counter {
-    font-size: 8rem;
-    font-weight: bold;
-    text-shadow: 0 0 20px #00ff41; 
-}
-
-#output {
-    font-size: 1.5rem;
-    opacity: 0.7;
-    margin-top: 10px;
-}
-
-button {
-    background: transparent;
-    color: #00ff41;
-    border: 2px solid #00ff41;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    box-shadow: 0 0 10px #00ff41;
-    transition: all 0.3s;
-}
-
-button:hover {
-    background: #00ff41;
-    color: #000;
-    box-shadow: 0 0 30px #00ff41;
-}
-
-select {
-    background: #000;
-    color: #00ff41;
-    border: 1px solid #00ff41;
-    padding: 10px;
-    margin-bottom: 20px;
-    transition: all 0.3s;
-}
-
-select:hover {
-  box-shadow: 0 0 10px #00ff41;
->>>>>>> 15215b32ab96b793e5cc3e4edd59feaa053643a0
 }
