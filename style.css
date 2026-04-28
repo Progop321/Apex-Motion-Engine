@@ -44,7 +44,9 @@ button, select {
 }
 
 .bump {
-  transform: scale(1.1);
+  transform: scale(1.2);
+  text-shadow: 0 0 50px var(--neon-pink);
+  transition: transform 0.1s ease;
 }
 
 button {

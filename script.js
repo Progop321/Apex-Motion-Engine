@@ -59,6 +59,9 @@ function handleMotion(event) {
   if (magnitude >= threshold && !isWaiting) {
     count++;
     isWaiting = true;
+    if (navigator.vibrate) navigator.vibrate(100); 
+    counterDisplay.classList.add('bump');
+    setTimeout(() => counterDisplay.classList.remove('bump'), 150);
     document.body.style.backgroundColor = '#ff0055';
     speakCount(count);
     counterDisplay.innerText = count;
