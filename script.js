@@ -72,13 +72,13 @@ function handleMotion(event) {
     if (navigator.vibrate) navigator.vibrate(100); 
     counterDisplay.classList.add('bump');
     setTimeout(() => counterDisplay.classList.remove('bump'), 150);
-    document.body.style.backgroundColor = '#ff0055';
+    document.body.style.backgroundColor = '#adadad';
     speakCount(count);
     counterDisplay.innerText = count;
   }
   if (magnitude < resetLevel && isWaiting) {
     isWaiting = false; 
-    document.body.style.backgroundColor = "#050505";
+    document.body.style.backgroundColor = "#dfdede";
   }
 }
 

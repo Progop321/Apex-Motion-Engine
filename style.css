@@ -37,7 +37,7 @@ body {
 }
 
 #counter {
-  font-size: clamp(8rem, 25vw, 12rem); 
+  font-size: clamp(10rem, 25vw, 12rem); 
   font-weight: 700;
   margin: 1rem 0; 
   line-height: 1;
