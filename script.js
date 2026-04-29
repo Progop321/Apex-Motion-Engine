@@ -9,6 +9,7 @@ const processInterval = 100;
 const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 const modeDisplay = document.getElementById('current-mode');
+const statusBar = document.getElementById('status-bar');
 
 function speakCount(text) {
   window.speechSynthesis.cancel();
@@ -18,10 +19,19 @@ function speakCount(text) {
   window.speechSynthesis.speak(msg);
 }
 
+function updateStatus(msg) {
+  if (statusBar) {
+    statusBar.innerText = msg;
+    statusBar.style.opacity = '0.3';
+    setTimeout(() => statusBar.style.opacity = '1', 200);
+  }
+}
+
 document.getElementById('start').onclick = function() {
   count = 0;
   counterDisplay.innerText = count;
   isReady = false; 
+  updateStatus("INITIALIZING SYSTEM...");
   speakCount("System initializing. Put your phone in your pocket.");
   try {
     if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -35,10 +45,10 @@ document.getElementById('start').onclick = function() {
   } catch (e) { console.log(e); }
   setTimeout(() => {
     isReady = true;
+    updateStatus("READY. START YOUR WORKOUT.")
     speakCount("Ready");
-    document.body.style.backgroundColor = "#252222";
     setTimeout(() => {
-      document.body.style.backgroundColor = "#050505";
+      document.body.style.backgroundColor = "#dfdede";
     }, 600);
   }, 5000);
 };

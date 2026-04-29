@@ -1,9 +1,27 @@
 :root {
-  --bg-color: #ffffff;
+  --bg-color: #dfdede;
   --text-main: #111827; 
   --text-muted: #6b7280; 
   --border-color: #e5e7eb;
   --accent: #111827;
+}
+
+header, main, footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+header {
+  margin-bottom: 1rem;
+}
+main { 
+  margin-bottom: 1.5rem; 
+}
+
+h1, h2, #counter {
+  margin: 0.5rem 0;
 }
 
 body {
@@ -19,10 +37,10 @@ body {
 }
 
 #counter {
-  font-size: 10rem;
-  font-weight: 600;
-  color: var(--text-main);
-  letter-spacing: -0.05em; 
+  font-size: clamp(8rem, 25vw, 12rem); 
+  font-weight: 700;
+  margin: 1rem 0; 
+  line-height: 1;
 }
 
 button {
@@ -35,10 +53,20 @@ button {
   font-weight: 500;
   cursor: pointer;
   transition: opacity 0.2s;
+  margin-bottom: 2rem; 
+  width: min(80vw, 280px);
 }
 
 button:hover { 
   opacity: 0.9; 
+}
+
+.mode-selector {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 0.5rem;
 }
 
 select {
@@ -47,11 +75,33 @@ select {
   border-radius: 6px;
   background: white;
   color: var(--text-main);
-  margin-bottom: 2rem;
+  width: min(80vw, 200px);
+  margin-bottom: 1.5rem;
 }
 
 #log-window {
   margin-top: 2rem;
   color: var(--text-muted);
   font-size: 0.875rem;
+}
+
+#current-mode {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+#status-bar {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  border-top: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding-top: 1.5rem;
+  width: min(80vw, 300px);
+  text-align: center;
 }

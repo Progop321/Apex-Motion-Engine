@@ -4,23 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link href="https://googleapis.com" rel="stylesheet">
   <title>Apex-Project</title>
 </head>
 <body>
-  <h1>Apex v0.2.2</h1>
-  <button id="start">Start System</button>
-  <h2 id="output">0</h2>
-  <div id="counter">0</div>
-  
-  <div class="mode-selector">
-    <label for="exercise-select">Exercise:</label>
-    <select id="exercise-select" onchange="changeExercise(this)">
-      <option value="pullups">Pull-ups</option>
-      <option value="pushups">Push-ups</option>
-      <option value="squats">Squats</option>
-    </select>
-  </div>
-  <h2 id="current-mode">Mode: Pull-ups</h2>
+  <header>
+    <h1>Apex v0.2.2</h1>
+    <button id="start">Start System</button>
+  </header>
+  <!-- ====== -->
+  <main>
+    <h2 id="output">0</h2>
+    <div id="counter">0</div>
+  </main>
+  <!-- ====== -->
+  <footer>
+    <div class="mode-selector">
+      <label for="exercise-select">Exercise:</label>
+      <select id="exercise-select" onchange="changeExercise(this)">
+        <option value="pullups">Pull-ups</option>
+        <option value="pushups">Push-ups</option>
+        <option value="squats">Squats</option>
+      </select>
+    </div>
+    <h2 id="current-mode">Mode: Pull-ups</h2>
+    <div id="status-bar">System: ready</div>
+  </footer>
+  <!-- ====== -->
   <script src="script.js"></script>
 </body>
 </html>
