@@ -84,9 +84,9 @@ function handleMotion(event) {
 
 function changeExercise(selectObject) {
   const value = selectObject.value;
-  if (value === "pullups") setMode(25, 12, 'Pull-ups');
-  if (value === "pushups") setMode(12, 5, 'Push-ups');
-  if (value === "squats") setMode(15, 8, 'Squats');
+  if (value === "pullups") setMode(22, 12, 'Pull-ups');
+  if (value === "pushups") setMode(8, 3, 'Push-ups');
+  if (value === "squats") setMode(10, 4, 'Squats');
 }
 
 function setMode(newT, newR, name) {
