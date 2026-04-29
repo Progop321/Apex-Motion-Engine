@@ -69,6 +69,7 @@ function handleMotion(event) {
   if (magnitude >= threshold && !isWaiting) {
     count++;
     isWaiting = true;
+    updateStatus(`${name} DETECTED: ${count}`);
     if (navigator.vibrate) navigator.vibrate(100); 
     counterDisplay.classList.add('bump');
     setTimeout(() => counterDisplay.classList.remove('bump'), 150);
@@ -85,8 +86,8 @@ function handleMotion(event) {
 function changeExercise(selectObject) {
   const value = selectObject.value;
   if (value === "pullups") setMode(22, 12, 'Pull-ups');
-  if (value === "pushups") setMode(8, 3, 'Push-ups');
-  if (value === "squats") setMode(10, 4, 'Squats');
+  if (value === "pushups") setMode(6, 3, 'Push-ups');
+  if (value === "squats") setMode(8, 4, 'Squats');
 }
 
 function setMode(newT, newR, name) {
