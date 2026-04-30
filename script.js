@@ -33,6 +33,15 @@ document.getElementById('start').onclick = function() {
   isReady = false; 
   updateStatus("INITIALIZING SYSTEM...");
   speakCount("System initializing. Put your phone in your pocket.");
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 25;
+    if (progress <= 100) {
+    updateStatus(`INITIALIZING ${progress}%`)
+  } else {
+    clearInterval(interval)
+  }
+  }, 1000);
   try {
     if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
       DeviceMotionEvent.requestPermission()
@@ -69,6 +78,7 @@ function handleMotion(event) {
   if (magnitude >= threshold && !isWaiting) {
     count++;
     isWaiting = true;
+    setMode();
     updateStatus(`${name} DETECTED: ${count}`);
     if (navigator.vibrate) navigator.vibrate(100); 
     counterDisplay.classList.add('bump');
