@@ -94,11 +94,11 @@ function handleMotion(event) {
   } 
   
   else if (exerciseSelect.value === 'pushups') {
-    if (Math.abs(smoothX) > 3.0 && !isWaiting) { 
+    if (Math.abs(smoothZ) > 3.0 && !isWaiting) { 
       isMovingDown = true;
       updateStatus("LOW...");
     }
-    if (Math.abs(smoothX) < 1.5 && isMovingDown) { 
+    if (Math.abs(smoothZ) < 1.5 && isMovingDown) { 
       registerRep();
     }
   }
