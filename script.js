@@ -4,6 +4,10 @@ let isReady = false;
 let threshold = 20; 
 let resetLevel = 12;
 let lastProcessTime = 0;
+let lastY = 0;
+let lastZ = 0;
+let smoothY = 0;
+let smoothZ = 0;
 const processInterval = 100; 
 
 const counterDisplay = document.getElementById('counter');
@@ -63,33 +67,30 @@ document.getElementById('start').onclick = function() {
 };
 
 function handleMotion(event) {
-  if (!isReady) return; 
-  let now = Date.now();
-  if (now - lastProcessTime < processInterval) return; 
-  lastProcessTime = now;
+  if (!isReady) return;
   const acc = event.accelerationIncludingGravity;
   if (!acc) return;
-  let x = acc.x || 0;
-  let y = acc.y || 0;
-  let z = acc.z || 0;
-  let magnitude = Math.sqrt(x*x + y*y + z*z) - 9.8;
-  if (magnitude < 0) magnitude = 0;
-  outputDisplay.innerText = magnitude.toFixed(2);
-  if (magnitude >= threshold && !isWaiting) {
+  smoothY = smoothY * 0.8 + (acc.y || 0) * 0.2;
+  smoothZ = smoothZ * 0.8 + (acc.z || 0) * 0.2;
+  let currentVal = (exerciseSelect.value === 'pushups') ? smoothZ : smoothY;
+  let lastVal = (exerciseSelect.value === 'pushups') ? lastZ : lastY;
+  let delta = currentVal - lastVal;
+  let dynamicThreshold = (exerciseSelect.value === 'squats') ? 1.2 : 2.5;
+  if (delta > dynamicThreshold && !isWaiting) {
     count++;
     isWaiting = true;
-    updateStatus(`DETECTED: ${count}`);
-    if (navigator.vibrate) navigator.vibrate(100); 
+    if (navigator.vibrate) navigator.vibrate(100);
     counterDisplay.classList.add('bump');
     setTimeout(() => counterDisplay.classList.remove('bump'), 150);
-    document.body.style.backgroundColor = '#adadad';
+    updateStatus(`REPS: ${count} (D: ${delta.toFixed(1)})`);
     speakCount(count);
     counterDisplay.innerText = count;
   }
-  if (magnitude < resetLevel && isWaiting) {
-    isWaiting = false; 
-    document.body.style.backgroundColor = "#dfdede";
+  if (delta < -0.3 && isWaiting) {
+    isWaiting = false;
   }
+  lastY = smoothY;
+  lastZ = smoothZ;
 }
 
 function changeExercise(selectObject) {
