@@ -9,6 +9,7 @@ let moveStartTime = 0;
 let isMoving = false;
 let baseValue = 0;
 let lastY = 0;
+let smoothX = 0;
 let lastZ = 0;
 let smoothY = 0;
 let smoothZ = 0;
@@ -76,6 +77,7 @@ function handleMotion(event) {
   const acc = event.accelerationIncludingGravity; 
   if (!acc) return;
 
+  smoothX = smoothX * 0.8 + (acc.x || 0) * 0.2;
   smoothY = smoothY * 0.8 + (acc.y || 0) * 0.2;
   smoothZ = smoothZ * 0.8 + (acc.z || 0) * 0.2;
   
@@ -92,16 +94,17 @@ function handleMotion(event) {
   } 
   
   else if (exerciseSelect.value === 'pushups') {
-    if (smoothZ < 2.0 && !isWaiting) { 
+    if (Math.abs(smoothX) > 7.0 && !isWaiting) { 
       isMovingDown = true;
       updateStatus("LOW...");
     }
-    if (smoothZ > 7.0 && isMovingDown) { 
+    if (Math.abs(smoothX) < 3.0 && isMovingDown) { 
       registerRep();
     }
   }
+
   else if (exerciseSelect.value === 'pullups') {
-    if (smoothY > 13.0 && !isWaiting) { 
+    if (smoothZ > 13.0 && !isWaiting) { 
       registerRep();
     }
   }
