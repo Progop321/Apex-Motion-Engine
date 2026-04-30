@@ -78,8 +78,7 @@ function handleMotion(event) {
   if (magnitude >= threshold && !isWaiting) {
     count++;
     isWaiting = true;
-    setMode();
-    updateStatus(`${name} DETECTED: ${count}`);
+    updateStatus(`DETECTED: ${count}`);
     if (navigator.vibrate) navigator.vibrate(100); 
     counterDisplay.classList.add('bump');
     setTimeout(() => counterDisplay.classList.remove('bump'), 150);
