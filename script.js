@@ -1,4 +1,5 @@
 let count = 0;
+let lastRepTime = 0;
 let isWaiting = false;
 let isReady = false; 
 let lastProcessTime = 0;
@@ -72,18 +73,20 @@ function handleMotion(event) {
   if (!isReady) return;
   const acc = event.acceleration; 
   if (!acc) return;
+  let minTime = 600;
+  let maxTime = 2500;
   let currentMag = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2);
   baseValue = baseValue * 0.7 + currentMag * 0.3; 
   updateStatus(`V: ${baseValue.toFixed(2)}`);
-  let now = Date.now();
-  let triggerThreshold = (exerciseSelect.value === 'squats') ? 1.2 : 2.5;
+  let now = Date.now(); 
+  let triggerThreshold = (exerciseSelect.value === 'squats') ? 0.6 : 2.5; 
   if (baseValue > (triggerThreshold * 0.5) && !isMoving) {
     moveStartTime = now;
     isMoving = true;
   }
   if (baseValue > triggerThreshold && !isWaiting) {
     let moveDuration = now - moveStartTime;
-    if (moveDuration > 400 && moveDuration < 2000) {
+    if (moveDuration > minTime && moveDuration < maxTime) {
       count++;
       isWaiting = true;
       lastRepTime = now;
@@ -92,9 +95,9 @@ function handleMotion(event) {
       counterDisplay.classList.add('bump');
       setTimeout(() => counterDisplay.classList.remove('bump'), 150);
       speakCount(count);
-      updateStatus(`REPS: ${count} | T: ${moveDuration}ms`);
-    } else {
-      updateStatus(`NOISE: ${moveDuration}ms`);
+      updateStatus(`SUCCESS: ${moveDuration}ms`);
+    } else if (moveDuration < minTime) {
+      updateStatus(`FAST NOISE: ${moveDuration}ms`);
     }
   }
   if (baseValue < (triggerThreshold * 0.3)) {
