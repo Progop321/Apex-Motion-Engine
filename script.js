@@ -67,29 +67,32 @@ document.getElementById('start').onclick = function() {
 
 function handleMotion(event) {
   if (!isReady) return;
-  const acc = event.accelerationIncludingGravity;
+  const acc = event.acceleration; 
   if (!acc) return;
   smoothY = smoothY * 0.8 + (acc.y || 0) * 0.2;
   smoothZ = smoothZ * 0.8 + (acc.z || 0) * 0.2;
-  let currentVal = (exerciseSelect.value === 'pushups') ? smoothZ : smoothY;
-  let lastVal = (exerciseSelect.value === 'pushups') ? lastZ : lastY;
-  let delta = currentVal - lastVal;
-  let dynamicThreshold = (exerciseSelect.value === 'squats') ? 1.2 : 2.5;
+  let currentVal;
+  if (exerciseSelect.value === 'squats') {
+    currentVal = Math.sqrt(smoothY * smoothY + smoothZ * smoothZ);
+  } else {
+    currentVal = (exerciseSelect.value === 'pushups') ? smoothZ : smoothY;
+  }
+  let delta = currentVal - (exerciseSelect.value === 'squats' ? lastY : lastY); 
+  let dynamicThreshold = (exerciseSelect.value === 'squats') ? 0.8 : 2.5;
   if (delta > dynamicThreshold && !isWaiting) {
     count++;
     isWaiting = true;
+    counterDisplay.innerText = count; 
     if (navigator.vibrate) navigator.vibrate(100);
     counterDisplay.classList.add('bump');
     setTimeout(() => counterDisplay.classList.remove('bump'), 150);
-    updateStatus(`REPS: ${count} (D: ${delta.toFixed(1)})`);
+    updateStatus(`REPS: ${count} (V: ${currentVal.toFixed(1)})`);
     speakCount(count);
-    counterDisplay.innerText = count;
   }
-  if (delta < -0.3 && isWaiting) {
+  if (delta < -0.2 && isWaiting) {
     isWaiting = false;
   }
-  lastY = smoothY;
-  lastZ = smoothZ;
+  lastY = currentVal; 
 }
 
 function changeExercise(select) {
