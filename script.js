@@ -1,8 +1,6 @@
 let count = 0;
 let isWaiting = false;
 let isReady = false; 
-let threshold = 20; 
-let resetLevel = 12;
 let lastProcessTime = 0;
 let lastY = 0;
 let lastZ = 0;
@@ -14,6 +12,7 @@ const counterDisplay = document.getElementById('counter');
 const outputDisplay = document.getElementById('output');
 const modeDisplay = document.getElementById('current-mode');
 const statusBar = document.getElementById('status-bar');
+const exerciseSelect = document.getElementById('exercise-select');
 
 function speakCount(text) {
   window.speechSynthesis.cancel();
@@ -93,18 +92,9 @@ function handleMotion(event) {
   lastZ = smoothZ;
 }
 
-function changeExercise(selectObject) {
-  const value = selectObject.value;
-  if (value === "pullups") setMode(22, 12, 'Pull-ups');
-  if (value === "pushups") setMode(6, 3, 'Push-ups');
-  if (value === "squats") setMode(8, 4, 'Squats');
-}
-
-function setMode(newT, newR, name) {
-  threshold = newT;
-  resetLevel = newR;
+function changeExercise(select) {
   count = 0;
   counterDisplay.innerText = count;
-  modeDisplay.innerText = `Mode: ${name}`;
-  speakCount(name);
+  updateStatus(`РЕЖИМ: ${select.value.toUpperCase()}`);
 }
+
