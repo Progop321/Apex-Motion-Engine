@@ -2,6 +2,8 @@ let count = 0;
 let isWaiting = false;
 let isReady = false; 
 let lastProcessTime = 0;
+let moveStartTime = 0;
+let isMoving = false;
 let baseValue = 0;
 let lastY = 0;
 let lastZ = 0;
@@ -69,25 +71,35 @@ document.getElementById('start').onclick = function() {
 function handleMotion(event) {
   if (!isReady) return;
   const acc = event.acceleration; 
-  if (!acc || acc.x === null) return;
-  let x = acc.x || 0;
-  let y = acc.y || 0;
-  let z = acc.z || 0;
-  let currentMag = Math.sqrt(x*x + y*y + z*z);
-  baseValue = baseValue * 0.8 + currentMag * 0.2;
-  updateStatus(`Force: ${baseValue.toFixed(2)}`);
-  let triggerThreshold = (exerciseSelect.value === 'squats') ? 0.7 : 2.5;
-  if (baseValue > triggerThreshold && !isWaiting) {
-    count++;
-    isWaiting = true;
-    counterDisplay.innerText = count;
-    if (navigator.vibrate) navigator.vibrate(100);
-    counterDisplay.classList.add('bump');
-    setTimeout(() => counterDisplay.classList.remove('bump'), 150);
-    speakCount(count);
+  if (!acc) return;
+  let currentMag = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2);
+  baseValue = baseValue * 0.7 + currentMag * 0.3; 
+  updateStatus(`V: ${baseValue.toFixed(2)}`);
+  let now = Date.now();
+  let triggerThreshold = (exerciseSelect.value === 'squats') ? 1.2 : 2.5;
+  if (baseValue > (triggerThreshold * 0.5) && !isMoving) {
+    moveStartTime = now;
+    isMoving = true;
   }
-  if (baseValue < (triggerThreshold * 0.4) && isWaiting) {
+  if (baseValue > triggerThreshold && !isWaiting) {
+    let moveDuration = now - moveStartTime;
+    if (moveDuration > 400 && moveDuration < 2000) {
+      count++;
+      isWaiting = true;
+      lastRepTime = now;
+      counterDisplay.innerText = count;
+      if (navigator.vibrate) navigator.vibrate(100);
+      counterDisplay.classList.add('bump');
+      setTimeout(() => counterDisplay.classList.remove('bump'), 150);
+      speakCount(count);
+      updateStatus(`REPS: ${count} | T: ${moveDuration}ms`);
+    } else {
+      updateStatus(`NOISE: ${moveDuration}ms`);
+    }
+  }
+  if (baseValue < (triggerThreshold * 0.3)) {
     isWaiting = false;
+    isMoving = false;
   }
 }
 
