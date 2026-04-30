@@ -1,5 +1,7 @@
 let count = 0;
 let lastRepTime = 0;
+let lastVal = 0;
+let isMovingDown = false;
 let isWaiting = false;
 let isReady = false; 
 let lastProcessTime = 0;
@@ -71,40 +73,32 @@ document.getElementById('start').onclick = function() {
 
 function handleMotion(event) {
   if (!isReady) return;
-  const acc = event.acceleration; 
+  const acc = event.accelerationIncludingGravity; 
   if (!acc) return;
-  let minTime = 600;
-  let maxTime = 2500;
-  let currentMag = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2);
-  baseValue = baseValue * 0.7 + currentMag * 0.3; 
-  updateStatus(`V: ${baseValue.toFixed(2)}`);
-  let now = Date.now(); 
-  let triggerThreshold = (exerciseSelect.value === 'squats') ? 0.6 : 2.5; 
-  if (baseValue > (triggerThreshold * 0.5) && !isMoving) {
-    moveStartTime = now;
-    isMoving = true;
-  }
-  if (baseValue > triggerThreshold && !isWaiting) {
-    let moveDuration = now - moveStartTime;
-    if (moveDuration > minTime && moveDuration < maxTime) {
+  smoothY = smoothY * 0.8 + (acc.y || 0) * 0.2;
+  updateStatus(`Y: ${smoothY.toFixed(1)}`);
+  let now = Date.now();
+  if (exerciseSelect.value === 'squats') {
+    if (smoothY < 4.0 && !isWaiting) {
+      isMovingDown = true;
+      updateStatus("DOWN...");
+    }
+    if (smoothY > 8.0 && isMovingDown) {
       count++;
-      isWaiting = true;
-      lastRepTime = now;
+      isMovingDown = false;
+      isWaiting = true; 
       counterDisplay.innerText = count;
       if (navigator.vibrate) navigator.vibrate(100);
       counterDisplay.classList.add('bump');
-      setTimeout(() => counterDisplay.classList.remove('bump'), 150);
+      setTimeout(() => {
+        counterDisplay.classList.remove('bump');
+        isWaiting = false;
+      }, 1000); 
       speakCount(count);
-      updateStatus(`SUCCESS: ${moveDuration}ms`);
-    } else if (moveDuration < minTime) {
-      updateStatus(`FAST NOISE: ${moveDuration}ms`);
+      updateStatus(`SUCCESS: ${count}`);
     }
   }
-  if (baseValue < (triggerThreshold * 0.3)) {
-    isWaiting = false;
-    isMoving = false;
-  }
-}
+};
 
 function changeExercise(select) {
   count = 0;
