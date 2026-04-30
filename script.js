@@ -75,30 +75,84 @@ function handleMotion(event) {
   if (!isReady) return;
   const acc = event.accelerationIncludingGravity; 
   if (!acc) return;
+
   smoothY = smoothY * 0.8 + (acc.y || 0) * 0.2;
-  updateStatus(`Y: ${smoothY.toFixed(1)}`);
+  smoothZ = smoothZ * 0.8 + (acc.z || 0) * 0.2;
+  
   let now = Date.now();
+
   if (exerciseSelect.value === 'squats') {
     if (smoothY < 4.0 && !isWaiting) {
       isMovingDown = true;
       updateStatus("DOWN...");
     }
     if (smoothY > 8.0 && isMovingDown) {
-      count++;
-      isMovingDown = false;
-      isWaiting = true; 
-      counterDisplay.innerText = count;
-      if (navigator.vibrate) navigator.vibrate(100);
-      counterDisplay.classList.add('bump');
-      setTimeout(() => {
-        counterDisplay.classList.remove('bump');
-        isWaiting = false;
-      }, 1000); 
-      speakCount(count);
-      updateStatus(`SUCCESS: ${count}`);
+      registerRep();
+    }
+  } 
+  
+  else if (exerciseSelect.value === 'pushups') {
+    if (smoothZ < 2.0 && !isWaiting) { 
+      isMovingDown = true;
+      updateStatus("LOW...");
+    }
+    if (smoothZ > 7.0 && isMovingDown) { 
+      registerRep();
     }
   }
-};
+  else if (exerciseSelect.value === 'pullups') {
+    if (smoothY > 13.0 && !isWaiting) { 
+      registerRep();
+    }
+  }
+}
+
+function registerRep() {
+  count++;
+  isMovingDown = false;
+  isWaiting = true; 
+  counterDisplay.innerText = count;
+  
+  if (navigator.vibrate) navigator.vibrate(100);
+  counterDisplay.classList.add('bump');
+  
+  updateStatus(`SUCCESS: ${count}`);
+  speakCount(count);
+
+  setTimeout(() => {
+    counterDisplay.classList.remove('bump');
+    isWaiting = false;
+  }, 1000); 
+}
+
+// function handleMotion(event) {
+//   if (!isReady) return;
+//   const acc = event.accelerationIncludingGravity; 
+//   if (!acc) return;
+//   smoothY = smoothY * 0.8 + (acc.y || 0) * 0.2;
+//   updateStatus(`Y: ${smoothY.toFixed(1)}`);
+//   let now = Date.now();
+//   if (exerciseSelect.value === 'squats') {
+//     if (smoothY < 4.0 && !isWaiting) {
+//       isMovingDown = true;
+//       updateStatus("DOWN...");
+//     }
+//     if (smoothY > 8.0 && isMovingDown) {
+//       count++;
+//       isMovingDown = false;
+//       isWaiting = true; 
+//       counterDisplay.innerText = count;
+//       if (navigator.vibrate) navigator.vibrate(100);
+//       counterDisplay.classList.add('bump');
+//       setTimeout(() => {
+//         counterDisplay.classList.remove('bump');
+//         isWaiting = false;
+//       }, 1000); 
+//       speakCount(count);
+//       updateStatus(`SUCCESS: ${count}`);
+//     }
+//   }
+// };
 
 function changeExercise(select) {
   count = 0;
