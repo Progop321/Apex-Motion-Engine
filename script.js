@@ -2,6 +2,7 @@ let count = 0;
 let isWaiting = false;
 let isReady = false; 
 let lastProcessTime = 0;
+let baseValue = 0;
 let lastY = 0;
 let lastZ = 0;
 let smoothY = 0;
@@ -68,36 +69,31 @@ document.getElementById('start').onclick = function() {
 function handleMotion(event) {
   if (!isReady) return;
   const acc = event.acceleration; 
-  if (!acc) return;
-  smoothY = smoothY * 0.8 + (acc.y || 0) * 0.2;
-  smoothZ = smoothZ * 0.8 + (acc.z || 0) * 0.2;
-  let currentVal;
-  if (exerciseSelect.value === 'squats') {
-    currentVal = Math.sqrt(smoothY * smoothY + smoothZ * smoothZ);
-  } else {
-    currentVal = (exerciseSelect.value === 'pushups') ? smoothZ : smoothY;
-  }
-  let delta = currentVal - (exerciseSelect.value === 'squats' ? lastY : lastY); 
-  let dynamicThreshold = (exerciseSelect.value === 'squats') ? 0.8 : 2.5;
-  if (delta > dynamicThreshold && !isWaiting) {
+  if (!acc || acc.x === null) return;
+  let x = acc.x || 0;
+  let y = acc.y || 0;
+  let z = acc.z || 0;
+  let currentMag = Math.sqrt(x*x + y*y + z*z);
+  baseValue = baseValue * 0.8 + currentMag * 0.2;
+  updateStatus(`Force: ${baseValue.toFixed(2)}`);
+  let triggerThreshold = (exerciseSelect.value === 'squats') ? 0.7 : 2.5;
+  if (baseValue > triggerThreshold && !isWaiting) {
     count++;
     isWaiting = true;
-    counterDisplay.innerText = count; 
+    counterDisplay.innerText = count;
     if (navigator.vibrate) navigator.vibrate(100);
     counterDisplay.classList.add('bump');
     setTimeout(() => counterDisplay.classList.remove('bump'), 150);
-    updateStatus(`REPS: ${count} (V: ${currentVal.toFixed(1)})`);
     speakCount(count);
   }
-  if (delta < -0.2 && isWaiting) {
+  if (baseValue < (triggerThreshold * 0.4) && isWaiting) {
     isWaiting = false;
   }
-  lastY = currentVal; 
 }
 
 function changeExercise(select) {
   count = 0;
   counterDisplay.innerText = count;
-  updateStatus(`РЕЖИМ: ${select.value.toUpperCase()}`);
+  updateStatus(`MODE: ${select.value.toUpperCase()}`);
 }
 
