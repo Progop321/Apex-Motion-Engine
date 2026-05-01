@@ -100,7 +100,7 @@ function handleMotion(event) {
     if (Math.abs(smoothX) > 3.0 && !isWaiting) {
       isMovingDown = true;
     } 
-    if (Math.abs(smoothX) < 3.5 && isMovingDown) {
+    if (Math.abs(smoothX) < 1.5 && isMovingDown) {
       registerRep();
     }
     lastX = smoothX;
