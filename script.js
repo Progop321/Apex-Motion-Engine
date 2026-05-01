@@ -11,6 +11,7 @@ let baseValue = 0;
 let lastY = 0;
 let smoothX = 0;
 let lastZ = 0;
+let lastX = 0;
 let smoothY = 0;
 let smoothZ = 0;
 const processInterval = 100; 
@@ -94,13 +95,15 @@ function handleMotion(event) {
   } 
   
   else if (exerciseSelect.value === 'pushups') {
-    if (Math.abs(smoothZ) > 3.0 && !isWaiting) { 
+    let deltaX = Math.abs(smoothX - lastX);
+    updateStatus(`D-X: ${deltaX.toFixed(2)} | X: ${smoothX.toFixed(1)}`);
+    if (Math.abs(smoothX) > 3.0 && !isWaiting) {
       isMovingDown = true;
-      updateStatus("LOW...");
-    }
-    if (Math.abs(smoothZ) < 1.5 && isMovingDown) { 
+    } 
+    if (Math.abs(smoothX) < 3.5 && isMovingDown) {
       registerRep();
     }
+    lastX = smoothX;
   }
 
   else if (exerciseSelect.value === 'pullups') {
